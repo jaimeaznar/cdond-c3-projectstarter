@@ -107,9 +107,13 @@ jobs:
           command: |
             cd frontend
             npm install
+            npm update js-yaml --depth 4
+            npm update minimist --depth 4
+            npm update json5 --depth 3
+            npm update loader-utils --depth 2
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
-
+            npm audit fix
   scan-backend:
     docker:
       - image: circleci/node:13.8.0
