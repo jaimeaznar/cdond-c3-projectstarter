@@ -65,8 +65,9 @@ commands:
       - run:
           name: Install Node.js 13
           command: |
-            curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-            sudo apt install -y nodejs
+            yum install -y tar gzip curl
+            curl -sL https://rpm.nodesource.com/setup_13.x | bash -
+            yum install -y nodejs
             
 jobs:
   build-frontend:
@@ -298,7 +299,7 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/python:3.7-node
     steps:
       - checkout
       - add_ssh_keys:
