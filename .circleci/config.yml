@@ -1,5 +1,9 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@4.12.1
+  aws-cli: circleci/aws-cli@3.1.1
+
 commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
@@ -65,9 +69,8 @@ commands:
       - run:
           name: Install Node.js 13
           command: |
-            yum install -y tar gzip curl
-            curl -sL https://rpm.nodesource.com/setup_13.x | bash -
-            yum install -y nodejs
+            curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+            sudo apt install -y nodejs
             
 jobs:
   build-frontend:
@@ -214,7 +217,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: cimg/base:stable  # python:3.7-alpine3.11
+      - image: python:3.7-alpine3.11 # python:3.7-alpine3.11
     steps:
       - checkout
       - add_ssh_keys:
@@ -261,7 +264,7 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: cimg/base:stable
+      - image: amazon/aws-cli
     steps:
       - checkout
       - add_ssh_keys:
