@@ -418,6 +418,33 @@ jobs:
             - destroy_environment 
             - revert-migrations
              
+    cloudfront-update:
+        docker:
+            # Docker image here that supports AWS CLI
+            - image: node:13.8-buster
+        steps:
+            # Checkout code from git
+            - checkout
+            - run:
+                name: Update packages
+                command: |
+                    apt update
+            - run:
+                name: Install dependencies (AWS-Cli)
+                command: |
+                    apt-get -y install awscli
+            - run:
+                name: Update cloudfront distribution
+                command: |
+                    # your code here
+                    aws cloudformation deploy \
+                    --template-file .circleci/files/cloudfront.yml \
+                    --stack-name InitialStack \
+                    --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+                    --tags project=udapeople
+            # Here's where you will add some code to rollback on failure
+            - destroy_environment 
+            - revert-migrations
 
     cleanup:
         docker:
@@ -466,37 +493,7 @@ jobs:
                     fi
 
             - destroy_environment 
-            - revert-migrations
-          
-    
-    cloudfront-update:
-        docker:
-            # Docker image here that supports AWS CLI
-            - image: node:13.8-buster
-        steps:
-            # Checkout code from git
-            - checkout
-            - run:
-                name: Update packages
-                command: |
-                    apt update
-            - run:
-                name: Install dependencies (AWS-Cli)
-                command: |
-                    apt-get -y install awscli
-            - run:
-                name: Update cloudfront distribution
-                command: |
-                    # your code here
-                    aws cloudformation deploy \
-                    --template-file .circleci/files/cloudfront.yml \
-                    --stack-name InitialStack \
-                    --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
-                    --tags project=udapeople
-            # Here's where you will add some code to rollback on failure
-            - destroy_environment 
-            - revert-migrations
-          
+            - revert-migrations     
     
 workflows:
     default:
@@ -526,7 +523,8 @@ workflows:
                 requires: [run-migrations]
             - smoke-test:
                 requires: [deploy-backend, deploy-frontend]
+            - cloudfront-update:
+                requires: [cleanup]
             # - cleanup:
             #     requires: [smoke-test]
-            # - cloudfront-update:
-            #     requires: [cleanup]
+            
