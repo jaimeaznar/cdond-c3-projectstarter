@@ -17,17 +17,3 @@
 - name: "Start the app"
   shell: |
     pm2 start npm -- start --name server
-
-- name: "Check env TYPEORM_ENTITIES"
-  command: 'echo $TYPEFORM_ENTITES'
-  register: output1
-
-- name: "Check env TYPEORM_CONNECTION"
-  command: 'echo $TYPEFORM_CONNECTION'
-  register: output2
-
-- name: "Debug"
-  debug:
-    msg:
-      - "{{ output1.stdout }}"
-      - "{{ output2.stdout }}"
