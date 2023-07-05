@@ -1,15 +1,15 @@
 ---
 
-- name: "Ship tar file to ec2 instance and extract it"
+- name: "Deploy file to ec2 instance and extract it"
   unarchive:
     src: /root/project/artifact.tar.gz
     dest: ~/
 
-- name: "Install backend server's package."
+- name: "Backend server's package."
   npm:
     path: ~/
 
-- name: "Stop currently running app"
+- name: "Stop running app"
   ignore_errors: true
   shell: |
     pm2 stop server
