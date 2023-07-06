@@ -26,11 +26,11 @@
 #     state: latest
 #     update_cache: yes
 - name: "install nodejs and npm"
-    become: yes
-    apt:
-      name: ["nodejs", "npm"]
-      state: latest
-      update_cache: yes
+  become: yes
+  apt:
+    name: ["nodejs", "npm"]
+    state: latest
+    update_cache: yes
 
 - name: "install n"
   become: yes
