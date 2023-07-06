@@ -14,6 +14,11 @@
       - make
     state: present
 
+- name: "Add Node.js from source"
+  become: true
+  shell: |
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+
 - name: "Install dependencies."
   become: true
   apt:
