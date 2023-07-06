@@ -14,17 +14,25 @@
       - make
     state: present
 
-- name: "Add Node.js from source"
+# - name: "Add Node.js from source"
+#   become: true
+#   shell: |
+#     curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+
+# - name: "Install dependencies."
+#   become: true
+#   apt:
+#     name: ["nodejs", "npm"]
+#     state: latest
+#     update_cache: yes
+- name: "Add Node.js from Nodesource"
   become: true
   shell: |
-    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-
-- name: "Install dependencies."
-  become: true
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+    sudo apt install -y nodejs
+    # use version manager to use nodejs v13.8.0
+    sudo npm install --global n
+    sudo n 13.8.0
 
 
 - name: "Install pm2"
