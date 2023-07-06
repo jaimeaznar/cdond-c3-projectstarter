@@ -25,14 +25,23 @@
 #     name: ["nodejs", "npm"]
 #     state: latest
 #     update_cache: yes
-- name: "Add Node.js from Nodesource"
-  become: true
-  shell: |
-    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-    sudo apt install -y nodejs
-    # use version manager to use nodejs v13.8.0
-    sudo npm install --global n
-    sudo n 13.8.0
+- name: "install nodejs and npm"
+    become: yes
+    apt:
+      name: ["nodejs", "npm"]
+      state: latest
+      update_cache: yes
+
+- name: "install n"
+  become: yes
+  npm:
+    name: n
+    global: yes
+    production: yes
+
+- name: "install nodejs 13.8.0"
+  become: yes
+  shell: n 13.8.0
 
 
 - name: "Install pm2"
