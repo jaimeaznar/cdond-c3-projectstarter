@@ -14,12 +14,23 @@
       - make
     state: present
 
-- name: "Install server required dependencies."
-  become: true
+- name: "install nodejs and npm"
+  become: yes
   apt:
     name: ["nodejs", "npm"]
     state: latest
     update_cache: yes
+
+- name: "install n"
+  become: yes
+  npm:
+    name: n
+    global: yes
+    production: yes
+
+- name: "install nodejs 13.8.0"
+  become: yes
+  shell: n 13.8.0
 
 
 - name: "Install pm2"
