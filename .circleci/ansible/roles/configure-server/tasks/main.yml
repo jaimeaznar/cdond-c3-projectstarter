@@ -32,17 +32,32 @@
 #   become: yes
 #   shell: n 13.8.0
 
-- name: "Setup NodeSource"
+# - name: "Setup NodeSource"
+#   become: yes
+#   shell: |
+#     curl -sL https://deb.nodesource.com/setup_13.x | bash -
+
+# - name: "Install Node.js"
+#   become: yes
+#   apt:
+#     name: ["nodejs"]
+#     state: latest
+#     update_cache: yes
+
+- name: "install nvm"
   become: yes
   shell: |
-    curl -sL https://deb.nodesource.com/setup_13.x | bash -
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+  args:
+    creates: /root/.nvm/nvm.sh
 
-- name: "Install Node.js"
+- name: "install nodejs 13.8.0"
   become: yes
-  apt:
-    name: ["nodejs"]
-    state: latest
-    update_cache: yes
+  shell: |
+    . /root/.nvm/nvm.sh
+    nvm install 13.8.0
+    nvm use 13.8.0
+    nvm alias default 13.8.0
 
 
 - name: "Install pm2"
