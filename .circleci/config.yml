@@ -231,6 +231,8 @@ jobs:
             - image: node:13.8-buster
         steps:
             - checkout
+            - attach_workspace:
+                at: ~/
             - restore_cache:
                 keys: [backend-build]
             - run:
