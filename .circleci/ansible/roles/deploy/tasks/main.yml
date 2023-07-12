@@ -9,6 +9,7 @@
 #   npm:
 #     path: ~/
 - name: "Install backend server's package."
+  become: true
   shell: |
     . /root/.nvm/nvm.sh
     npm install
@@ -20,6 +21,7 @@
 #   shell: |
 #     pm2 stop server
 - name: "Stop currently running app"
+  become: true
   ignore_errors: true
   shell: |
     . /root/.nvm/nvm.sh
@@ -30,6 +32,7 @@
 #     pm2 start npm -- start --name server
 #     pm2 save
 - name: "Start the app"
+  become: true
   shell: |
     . /root/.nvm/nvm.sh
     pm2 start npm -- start --name server
