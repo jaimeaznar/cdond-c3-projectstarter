@@ -25,12 +25,12 @@ commands:
                 when: on_fail
                 command: |
                     # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-                    SUCCESS=$(curl --insecure https://kvdb.io/${KVDB_BUCKET_ID}/migration_${CIRCLE_WORKFLOW_ID:0:7});
-                    echo $SUCCESS;
-                    if(( $SUCCESS==1 )); 
+                    SUCCESS=$(curl --insecure https://kvdb.io/${KVDB_BUCKET_ID}/migration_${CIRCLE_WORKFLOW_ID:0:7})
+                    echo $SUCCESS
+                    if(( $SUCCESS == 1 )) 
                     then
-                        cd ~/project/backend;
-                        npm install;
+                        cd ~/project/backend
+                        npm install
                         #  Add revert code here. You can find this in the Getting Started section.
                         npm run migrations:revert
                     fi
@@ -256,7 +256,7 @@ jobs:
             - run:
                 name: Send migration results to kvdb.io
                 command: |
-                    if grep -q "has been executed successfully." ./backend/migrations_dump.txt
+                    if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
                     then
                         echo "Migration status was successful"
                         curl https://kvdb.io/${KVDB_BUCKET_ID}/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
@@ -448,7 +448,7 @@ jobs:
                     if [[ -z "${CIRCLE_WORKFLOW_ID:0:7}" ]]
                     then
                         echo 'ERROR: CANNOT CLEAN UP.'
-                        exit 1;
+                        exit 1
                     fi
 
                     # Get old workflow ID
