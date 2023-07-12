@@ -5,17 +5,33 @@
     src: /root/project/artifact.tar.gz
     dest: ~/
 
+# - name: "Install backend server's package."
+#   npm:
+#     path: ~/
 - name: "Install backend server's package."
-  npm:
-    path: ~/
+  shell: |
+    . /root/.nvm/nvm.sh
+    npm install
+  args:
+    chdir: ~/
 
+# - name: "Stop currently running app"
+#   ignore_errors: true
+#   shell: |
+#     pm2 stop server
 - name: "Stop currently running app"
   ignore_errors: true
   shell: |
+    . /root/.nvm/nvm.sh
     pm2 stop server
 
+# - name: "Start the app"
+#   shell: |
+#     pm2 start npm -- start --name server
+#     pm2 save
 - name: "Start the app"
   shell: |
+    . /root/.nvm/nvm.sh
     pm2 start npm -- start --name server
     pm2 save
 
