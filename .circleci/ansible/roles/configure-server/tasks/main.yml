@@ -58,12 +58,20 @@
     nvm install 13.8.0
     nvm use 13.8.0
     nvm alias default 13.8.0
+    node -v
+    npm -v
 
+
+# - name: "Install pm2"
+#   become: true
+#   npm:
+#     name: pm2
+#     global: yes
+#     production: yes
+#     state: present
 
 - name: "Install pm2"
   become: true
-  npm:
-    name: pm2
-    global: yes
-    production: yes
-    state: present
+  shell: |
+    . /root/.nvm/nvm.sh
+    npm install -g pm2
