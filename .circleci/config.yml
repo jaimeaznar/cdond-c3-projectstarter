@@ -423,8 +423,8 @@ jobs:
                         --region us-west-2 \
                         --tags project=udapeople
                 
+        - destroy_environment 
         - revert-migrations
-        - destroy-environment
 
     cleanup:
         docker:
